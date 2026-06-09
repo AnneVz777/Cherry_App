@@ -20,7 +20,6 @@
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Tecnologias](#-tecnologias)
 - [Arquitetura](#-arquitetura)
-- [Modelagem de Dados](#-modelagem-de-dados)
 - [Regras de Negócio](#-regras-de-negócio)
 - [Endpoints da API](#-endpoints-da-api)
 - [Como Executar](#-como-executar)
@@ -39,7 +38,6 @@ A API cobre o ciclo completo de um e-commerce:
 - Cadastro de **usuários** com disparo automático de e-mail de boas-vindas
 - Gerenciamento de **produtos** com controle de estoque em tempo real
 - Criação de **pedidos** protegida por transação de banco de dados
-- Rastreamento de **entregas** com código e status logístico
 - Registro de **avaliações** de produtos por usuários
 
 > **Disciplina:** Desenvolvimento Backend — Prof. João Martins, Msc.  
@@ -78,22 +76,22 @@ Cliente (Insomnia / Frontend)
 ┌───────────────────────────────────────────┐
 │              Controllers                   │
 │  UsuarioController  │  ProdutoController  │
-│  PedidoController   │  EntregaController  │
-│         AvaliacaoController               │
+│  PedidoController   │  AvaliacaoController │
+│                                           │
 └────────┬──────────────────────────────────┘
          │
          ▼
 ┌───────────────────────────────────────────┐
 │           Models (Eloquent ORM)            │
 │  Usuario · Produto · Pedido               │
-│  ItemPedido · Entrega · Avaliacoes        │
+│  ItemPedido  · Avaliacoes                 │
 └────────┬──────────────────────────────────┘
          │
          ▼
 ┌───────────────────────────────────────────┐
 │           Banco de Dados MySQL             │
 │  usuarios · produtos · pedidos            │
-│  item_pedidos · entregas · avaliacoes     │
+│  item_pedidos · avaliacoes                │
 └───────────────────────────────────────────┘
 ```
 
@@ -104,7 +102,6 @@ app/
 ├── Http/
 │   └── Controllers/
 │       ├── AvaliacaoController.php
-│       ├── EntregaController.php
 │       ├── PedidoController.php
 │       ├── ProdutoController.php
 │       └── UsuarioController.php
@@ -112,7 +109,6 @@ app/
 │   └── CadastroConfirmado.php
 └── Models/
     ├── Avaliacoes.php
-    ├── Entrega.php
     ├── ItemPedido.php
     ├── Pedido.php
     ├── Produto.php
@@ -125,65 +121,11 @@ database/
     ├── 2026_05_02_154055_create_pedidos_table.php
     ├── 2026_05_02_154426_create_pedido_produto_table.php
     ├── 2026_05_02_173633_create_avaliacoes_table.php
-    └── 2026_05_02_180000_create_entregas_table.php
 
 routes/
 └── api.php
 ```
 
----
-
-## Modelagem de Dados
-
-### Diagrama de Relacionamentos
-
-```
-┌─────────────┐        ┌──────────────────┐        ┌──────────────┐
-│  usuarios   │        │     pedidos      │        │  item_pedidos│
-│─────────────│        │──────────────────│        │──────────────│
-│ id (PK)     │1      N│ id (PK)          │1      N│ id (PK)      │
-│ nome        ├────────┤ user_id (FK)     ├────────┤ pedido_id(FK)│
-│ email       │        │ status           │        │ produto_id(FK│
-│ senha       │        │ status_pagamento  │        │ quantidade   │
-│ telefone    │        │ metodo_pagamento  │        │ preco        │
-└─────────────┘        │ total            │        └──────┬───────┘
-                       │ data_pedido      │               │N
-                       │ codigo_rastreio  │               │
-                       │ data_entrega     │        ┌──────┴───────┐
-                       └────────┬─────────┘        │   produtos   │
-                                │1                 │──────────────│
-                                │                  │ id (PK)      │
-                       ┌────────┴─────────┐        │ nome         │
-                       │    entregas      │        │ descricao    │
-                       │──────────────────│        │ preco        │
-                       │ id (PK)          │        │ estoque      │
-                       │ pedido_id (FK)   │        │ imagem       │
-                       │ status           │        └──────┬───────┘
-                       │ codigo_rastreio  │               │1
-                       │ data_envio       │               │
-                       │ data_entrega     │        ┌──────┴───────┐
-                       └──────────────────┘        │  avaliacoes  │
-                                                   │──────────────│
-                                                   │ id (PK)      │
-                                                   │ user_id (FK) │
-                                                   │ produto_id(FK│
-                                                   │ nota         │
-                                                   │ comentario   │
-                                                   └──────────────┘
-```
-
-### Relacionamentos
-
-| Entidade | Tipo | Entidade |
-|----------|------|----------|
-| Usuario | 1 : N | Pedidos |
-| Pedido | 1 : N | ItensPedido |
-| Pedido | 1 : 1 | Entrega |
-| Produto | N : N | Pedidos (via `item_pedidos`) |
-| Produto | 1 : N | Avaliacoes |
-| Usuario | 1 : N | Avaliacoes |
-
----
 
 ## Regras de Negócio
 
@@ -418,7 +360,6 @@ A API estará disponível em `http://127.0.0.1:8000/api/v1`
 | CRUD de Usuários | ✅ Concluído |
 | CRUD de Produtos | ✅ Concluído |
 | CRUD de Pedidos | ✅ Concluído |
-| CRUD de Entregas | ✅ Concluído |
 | CRUD de Avaliações | ✅ Concluído |
 | E-mail automático no cadastro (Mailable) | ✅ Concluído |
 | Transação de banco na criação de pedidos | ✅ Concluído |
