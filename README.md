@@ -344,30 +344,6 @@ routes/
 
 ---
 
-### Entregas `/entregas`
-
-| Método | Endpoint | Descrição | Status |
-|--------|----------|-----------|--------|
-| `GET` | `/entregas` | Lista todas as entregas | `200` |
-| `GET` | `/entregas/{id}` | Retorna uma entrega pelo ID | `200` / `404` |
-| `POST` | `/entregas` | Cria um registro de entrega | `201` |
-| `PUT` | `/entregas/{id}` | Atualiza uma entrega | `200` / `404` |
-| `DELETE` | `/entregas/{id}` | Remove uma entrega | `200` / `404` |
-
-<details>
-<summary><strong>Exemplo de requisição — POST /entregas</strong></summary>
-
-```json
-{
-  "pedido_id": 1,
-  "status": "pendente",
-  "endereco_entrega": "Rua das Flores, 123, Recife - PE"
-}
-```
-</details>
-
----
-
 ### Avaliações `/avaliacoes`
 
 | Método | Endpoint | Descrição | Status |
