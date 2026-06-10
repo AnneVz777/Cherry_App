@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Avaliacoes extends Model
+class Avaliacao extends Model
 {
     protected $fillable = ['id', 'produto_id', 'usuario_id', 'avaliacao', 'comentario'];
     protected $table = 'avaliacoes';
@@ -17,6 +17,6 @@ class Avaliacoes extends Model
 
 public function usuario()
 {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(Usuario::class);
 }
 }

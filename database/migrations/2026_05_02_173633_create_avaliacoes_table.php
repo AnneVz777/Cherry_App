@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('avaliacoes', function (Blueprint $table) {
+        Schema::create('avaliacao', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('produto_id')->constrained()->onDelete('cascade');
-            $table->integer('nota'); // 1 a 5
+            $table->integer('nota'); 
             $table->text('comentario')->nullable();
             $table->timestamp('data_avaliacao')->useCurrent();
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('avaliacoes');
+        Schema::dropIfExists('avaliacao');
     }
 };

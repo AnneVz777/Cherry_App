@@ -31,7 +31,7 @@ class PedidoController extends Controller
         try {
 
             $pedido = Pedido::create([
-                'user_id' => $request->user_id,
+                'usuario_id' => $request->usuario_id,
                 'status' => 'pendente',
 
                 'metodo_pagamento' => $request->metodo_pagamento,
@@ -58,22 +58,13 @@ class PedidoController extends Controller
                     'pedido_id' => $pedido->id,
                     'produto_id' => $produto->id,
                     'quantidade' => $item['quantidade'],
-                    'preco_unitario' => $produto->preco
+                    'preco' => $produto->preco
                 ]);
 
                 $produto->decrement('estoque', $item['quantidade']);
 
                 $total += $subtotal;
             }
-
-            $pedido->update([
-                'valor_total' => $total
-            ]);
-
-            $pedido->update([
-                'status_pagamento' => 'pago',
-                'status' => 'confirmado'
-            ]);
 
             DB::commit();
 
@@ -89,22 +80,7 @@ class PedidoController extends Controller
             return response()->json([
                 'erro' => true,
                 'mensagem' => $e->getMessage()
-            ], 400);
-        }
-    }
-
-
-    public function atualizarEntrega(Request $request, $id)
-    {
-        $pedido = Pedido::findOrFail($id);
-
-        $pedido->update([
-            'status_entrega' => $request->status_entrega,
-            'codigo_rastreio' => $request->codigo_rastreio,
-            'data_envio' => $request->data_envio,
-            'data_entrega_prevista' => $request->data_entrega_prevista
-        ]);
-
-        return response()->json($pedido);
+                ], 400);
+                        }
     }
 }

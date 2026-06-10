@@ -27,8 +27,7 @@ class Pedido extends Model
 
 public function usuario()
 {
-    return $this->belongsTo(User::class, 'user_id');
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(Usuario::class, 'usuario_id');
 }
 
 public function itens()

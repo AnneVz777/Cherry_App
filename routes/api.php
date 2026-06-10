@@ -4,11 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\AvaliacaoController;
 
-Route::middleware('throttle:api')->prefix('v1')->group(function () {
-
+Route::prefix('v1')->group(function () {
 
 
     // Produtos
@@ -36,12 +34,6 @@ Route::middleware('throttle:api')->prefix('v1')->group(function () {
     Route::put('/pedidos/{id}/entrega',   [PedidoController::class, 'atualizarEntrega']);
     Route::put('/pedidos/{id}/avaliacao', [PedidoController::class, 'atualizarAvaliacao']);
 
-    // Entregas
-    Route::get('/entregas',        [EntregaController::class, 'index']);
-    Route::get('/entregas/{id}',   [EntregaController::class, 'show']);
-    Route::post('/entregas',       [EntregaController::class, 'store']);
-    Route::put('/entregas/{id}',   [EntregaController::class, 'update']);
-    Route::delete('/entregas/{id}',[EntregaController::class, 'destroy']);
 
     // Avaliações
     Route::get('/avaliacoes',        [AvaliacaoController::class, 'index']);

@@ -8,11 +8,6 @@ use App\Models\Produto;
 class ProdutoController extends Controller
 {
     public function index() {
-        foreach (Produto::all() as $produto) {
-            echo $produto->nome;
-            echo "<br>";
-        }
-        dd();
         $produtos = Produto::all();
         return response()->json($produtos);
     }

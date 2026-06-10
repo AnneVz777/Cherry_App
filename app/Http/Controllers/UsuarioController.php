@@ -10,11 +10,6 @@ use App\Models\Usuario;
 class UsuarioController extends Controller
 {
     public function index() {
-        foreach (Usuario::all() as $usuario) {
-            echo $usuario->nome;
-            echo "<br>";
-        }
-        dd();
         $usuarios = Usuario::all();
         return response()->json($usuarios);
     }
